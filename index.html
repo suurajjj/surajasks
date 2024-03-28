@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Surajasks</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    color: #fff;
+  }
+  .container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+  }
+  .btn {
+    padding: 10px 25px;
+    background-color:#ff004f;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 18px;
+    transition: background-color 0.3s, color 0.3s, transform 0.3s;
+  }
+  .btn:hover {
+    background-color: #ff004f;
+  }
+  .btn-no {
+    position: relative;
+    animation: jump 0.3s ease infinite alternate;
+  }
+  h1 {
+    font-size: 50px;
+    margin-bottom: 50px;
+    color: #ff004f;
+  }
+  p {
+    font-size: 20px;
+    margin-bottom: 40px;
+    color: #666;
+    line-height: 1.6;
+  }
+  input[type="tel"] {
+    padding: 10px;
+    width: 300px;
+    border-radius: 5px;
+    border: 1px solid #ff4d4d;
+    font-size: 16px;
+    margin-bottom: 20px;
+    outline: none;
+    color: #333;
+    background-color: #fff;
+  }
+
+  @keyframes jump {
+    0% {
+      top: 0;
+    }
+    50% {
+      top: -10px;
+    }
+    100% {
+      top: 0;
+    }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="container" id="question-slide">
+  <h1>Would you like to come on a date with me?</h1>
+  <div class="btn-container">
+    <button class="btn" onclick="document.getElementById('food-slide').style.display = 'flex'; document.getElementById('question-slide').style.display = 'none';">Mera kya Faida</button>
+    <button class="btn btn-no" onclick="changePosition()">Mana kardun to ?</button>
+  </div>
+  <p>(Don't worry, it's going to be magical)</p>
+</div>
+
+<div class="container" id="food-slide" style="display: none;">
+  <h1>Let's talk food!</h1>
+  <p>How about I fill up your mouth with the best butter chicken you ever had ? Then I know moti tu bina sweets ke maanegi nahi so we can have ice-creams<i class="fa fa-smile"></i></p>
+  <button class="btn" onclick="document.getElementById('hangout-slide').style.display = 'flex'; document.getElementById('food-slide').style.display = 'none';">Ahaan!</button>
+</div>
+
+<div class="container" id="hangout-slide" style="display: none;">
+  <h1>Where should we go?</h1>
+  <p>How about you decide it and tell me.Thodi mehnat tu bhi kar  <i class="fa fa-heart"></i></p>
+  <button class="btn" onclick="document.getElementById('reason-slide').style.display = 'flex'; document.getElementById('hangout-slide').style.display = 'none';">Sounds perfect!</button>
+</div>
+
+<div class="container" id="reason-slide" style="display: none;">
+  <h1>Why am I asking?</h1>
+  <p>"Picture this: You, me, and a table for two. The ambiance? Cheesy romance mixed with a dash of spontaneity.Why go on a date? Well, because life's too short to miss out on the chance to laugh until our cheeks hurt, share stories that make us snort, and create memories so sweet they'll give us a toothache.
+    Let's make this date a legend... wait for it... dary! <i class="fa fa-heart"></i></p>
+    <!-- <p>  Saath saath thode dukhde bhi ro lenge <i class="fa fa-heart"></i></p> -->
+  <button class="btn" onclick="document.getElementById('compliment-slide').style.display = 'flex'; document.getElementById('reason-slide').style.display = 'none';">Convince me more</button>
+</div>
+
+<div class="container" id="compliment-slide" style="display: none;">
+  <h1>Because...</h1>
+  <p>Just want to say that chatting with you feels like sipping on a warm cup of happiness. And can we talk about those eyes of yours? Those sexy eyes.
+   Those lips of yours? They're like forbidden fruit.And you know na how Adam was tricked into it.
+    You know If looks could kill, you'd have a body count higher than the Empire State Building and I'm willing to risk it all .</p>
+  <p> Isn't this my right to witness it all ?   </p>  
+                                                         
+  <button class="btn" onclick="document.getElementById('final-slide').style.display = 'flex'; document.getElementById('compliment-slide').style.display = 'none';">Ab mai itni bhi kuch khaas nahi</button>
+</div>
+
+<div class="container" id="final-slide" style="display: none;">
+  <h1> I'd love to stay in touch. Mind if I grab your number?</h1>
+  <p> Just recharged my number.Would you like to flood my whatsapp with your pictures ?<i class="fa fa-heart"></i></p>
+  <form id="number-form" onsubmit="submitForm(event)">
+  
+
+      <label for="phone">Your Digits:</label><br>
+      <input type="tel" id="phone" name="phone" required><br><br>
+     <button type="submit" class="btn">Chal lele<i class="fa fa-paper-plane"></i></button>
+  </form>
+</div>
+
+<script>
+
+  function changePosition() {
+    const btnNo = document.querySelector('.btn-no');
+    btnNo.style.left = Math.random() * (window.innerWidth - 5) + 'px';
+    btnNo.style.top = Math.random() * (window.innerHeight - 50) + 'px';
+  }
+function submitForm(event) {
+  event.preventDefault();
+  const phoneNumber = document.getElementById('phone').value;
+  sendDataToGoogleSheets(phoneNumber);
+  document.getElementById('number-form').reset();
+  displayThankYouMessage();
+}
+ function sendDataToGoogleSheets(phoneNumber) {
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbx_yG7szjmVNC8vjErPQ1QMHKuw_sCsV_DVtqz9l8CnhXCK56KGpcXpaKoalJZdBMdQ/exec'; // Replace with your Google Apps Script URL
+  const formData = new FormData();
+  formData.append('phone', phoneNumber);
+  
+  fetch(scriptURL, { method: 'POST', body: formData })
+    .then(response => console.log('Form data sent successfully!', response))
+    .catch(error => console.error('Error sending form data:', error));
+}
+function displayThankYouMessage() {
+      alert("Now just be ready to witness it all😉");
+    }
+
+</script>
+
+</body>
+</html>
+
